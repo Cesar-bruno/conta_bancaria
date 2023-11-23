@@ -1,5 +1,7 @@
 package conta_bancaria;
 
+import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import conta_bancaria.controller.ContaController;
@@ -43,8 +45,14 @@ public class Menu {
 		System.out.println("******************************************");
 		System.out.println(Cores.reset_texto);
 		
+		try {
 		opcao =  leia.nextInt();
-				
+		
+		}catch(InputMismatchException e ){
+			System.out.println("Digite valores de inteiros !");
+			leia.nextLine();
+			opcao = 9;
+		}	
 		
 		if(opcao == 0) {
 			System.out.println(Cores.TEXT_WHITE_BOLD + "Banco dos Dev - O melhor lugar para desenvolver seu dinheiro");
@@ -83,31 +91,50 @@ public class Menu {
 				contas.cadastrar(new ContaPoupanca(contas.gerarNumero() , agencia, tipo, titular, saldo, aniversario));
 				}
 			}
+			keyPress();
 			break;
 		case 2 :
 			System.out.println("Listar todas as contas\n\n");
 			contas.listarTodas();
+			keyPress();
 			break;
 		case 3 :
 			System.out.println("Buscar conta\n\n");
+				System.out.println("digite o número da conta : ");
+				numero = leia.nextInt();
+				
+				contas.procurarPorNumero(numero);
+				keyPress();
 			break;
 		case 4 :
 			System.out.println("Atualizar dados\n\n");
+			keyPress();
 			break;
 		case 5 :
 			System.out.println("Apagar a conta\n\n");
+			
+			System.out.println("digite o número da conta : ");
+			numero = leia.nextInt();
+			
+			contas.deletar(numero);
+			keyPress();
 			break;
 		case 6 :
 			System.out.println("Fazer Saque\n\n");
+			keyPress();
 			break;
 		case 7 :
 			System.out.println("Fazer Deposito\n\n");
+			keyPress();
 			break;
 		case 8 :
 			System.out.println("Excluir a conta\n\n");
+			keyPress();
+			
 			break;
 		default :
 			System.out.println(Cores.TEXT_RED_BOLD + "Escolha uma opção valida!!\n\n" + Cores.reset_texto);
+			keyPress();
 			break;
 			
 		}
@@ -123,5 +150,17 @@ public class Menu {
 		System.out.println("Bruno Cesar");
 		System.out.println("github.com/Coxadmal");
 		System.out.println("\n****************************");
+	}
+	
+	public static void keyPress() {
+		try {
+			System.out.println("\n\npressione a tecla Enter para continuar ...");
+			System.in.read();
+			
+		}catch(IOException e){
+			
+			System.out.println("você pressionou uma tecla invalida");
+			
+		}
 	}
 }
